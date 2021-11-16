@@ -9,7 +9,6 @@ import io.getunleash.lang.Nullable;
 import io.getunleash.metric.UnleashMetricService;
 import io.getunleash.metric.UnleashMetricServiceImpl;
 import io.getunleash.repository.FeatureToggleRepository;
-import io.getunleash.repository.HttpToggleFetcher;
 import io.getunleash.repository.ToggleBackupHandlerFile;
 import io.getunleash.repository.ToggleRepository;
 import io.getunleash.strategy.*;
@@ -50,7 +49,7 @@ public class DefaultUnleash implements Unleash {
     private static FeatureToggleRepository defaultToggleRepository(UnleashConfig unleashConfig) {
         return new FeatureToggleRepository(
                 unleashConfig,
-                new HttpToggleFetcher(unleashConfig),
+                unleashConfig.unleashToggleFetcherFactory().apply(unleashConfig),
                 new ToggleBackupHandlerFile(unleashConfig));
     }
 
